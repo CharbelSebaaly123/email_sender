@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gmail Email Sender</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #333; }
+        .container { max-width: 600px; margin: 60px auto; padding: 0 20px; }
+        h1 { font-size: 1.8rem; margin-bottom: 8px; color: #1a1a1a; }
+        .subtitle { color: #666; margin-bottom: 32px; font-size: 0.95rem; }
+        .card { background: white; border-radius: 8px; padding: 28px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .card h2 { font-size: 1.1rem; margin-bottom: 20px; color: #444; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; font-size: 0.9rem; font-weight: 500; color: #555; }
+        input[type=text], input[type=password] {
+            width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px;
+            font-size: 0.95rem; transition: border-color 0.2s;
+        }
+        input[type=text]:focus, input[type=password]:focus { outline: none; border-color: #4285f4; }
+        .hint { font-size: 0.8rem; color: #888; margin-top: 5px; }
+        .hint a { color: #4285f4; }
+        .btn { display: inline-block; padding: 10px 24px; background: #4285f4; color: white;
+               border: none; border-radius: 6px; font-size: 0.95rem; cursor: pointer;
+               text-decoration: none; transition: background 0.2s; }
+        .btn:hover { background: #3367d6; }
+        .divider { border: none; border-top: 1px solid #eee; margin: 24px 0; }
+        .alert { padding: 12px 16px; border-radius: 6px; margin-bottom: 20px; font-size: 0.9rem; }
+        .alert-error { background: #fdecea; color: #c62828; border: 1px solid #f5c6c6; }
+        .alert-info  { background: #e8f4fd; color: #1565c0; border: 1px solid #b3d4f5; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Gmail Email Sender</h1>
+    <p class="subtitle">Enter your Gmail credentials and the directory containing .email files</p>
+
+    <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+    <div th:if="${info}"  class="alert alert-info"  th:text="${info}"></div>
+
+    <div class="card">
+        <h2>Configuration</h2>
+        <form action="/load" method="post">
+            <div class="form-group">
+                <label>Gmail Address</label>
+                <input type="text" name="username" placeholder="you@gmail.com"
+                       th:value="${credentials?.username}" required />
+            </div>
+            <div class="form-group">
+                <label>App Password</label>
+                <input type="password" name="appPassword" placeholder="xxxx xxxx xxxx xxxx" required />
+                <p class="hint">
+                    Use a <a href="https://myaccount.google.com/apppasswords" target="_blank">Gmail App Password</a>,
+                    not your regular Gmail password. Requires 2FA to be enabled.
+                </p>
+            </div>
+            <hr class="divider">
+            <div class="form-group">
+                <label>Email Files Directory</label>
+                <input type="text" name="emailDirectory"
+                       th:placeholder="${defaultDirectory}"
+                       th:value="${credentials?.emailDirectory}" />
+                <p class="hint">
+                    Absolute path or relative to working directory. Defaults to the bundled <code>emails/</code> folder.
+                    Each <code>.email</code> file should start with <code>to:</code> and <code>subject:</code> headers,
+                    then a blank line, then the body.
+                </p>
+            </div>
+            <button type="submit" class="btn">Load Email Files &rarr;</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+How to use the app
+Step 1 — Gmail App Password (required)
+
+Go to myaccount.google.com/apppasswords (needs 2FA enabled)
+Create an app password for "Mail"
+Use that 16-character password — not your regular Gmail password
+Step 2 — Email file format
+
+Each .email file in the emails/ directory follows this format:
+
+to: recipient@example.com
+subject: Your Subject Here
+Body text goes here.
+Multiple lines are fine.
+Step 3 — UI workflow
+
+Enter your Gmail address + App Password
+Enter the directory path containing your .email files (or leave blank to use the bundled emails/ folder)
+Click Load Email Files to preview them
+Click Send All Pending or send individually per row
